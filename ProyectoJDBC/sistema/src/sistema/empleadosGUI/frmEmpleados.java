@@ -148,6 +148,7 @@ public class frmEmpleados extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         conexion objtConexion = new conexion();
+        objtConexion.ejecutarSentenciaSQL("INSERT INTO empleado (Id, Nombre,Correo)");
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
