@@ -12,7 +12,7 @@ public class conexion {
         try {
         Class.forName("org.sqlite.JDBC");
         conn= DriverManager.getConnection(strConexionDB);
-        System.out.println("Conexion Establecida");
+        System.out.println("Conexión Establecida");
             
         } catch (Exception e) {
             System.out.println("Error de la conexión "+ e);
