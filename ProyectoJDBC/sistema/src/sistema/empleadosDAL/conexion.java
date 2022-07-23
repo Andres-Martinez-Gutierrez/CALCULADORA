@@ -21,7 +21,7 @@ public class conexion {
     }
     public int ejecutarSentenciaSQL(String strSentenciaSQL){
         try {
-            PreparedStatement pstm = conn.prepareStatement(strConexionDB);
+            PreparedStatement pstm = conn.prepareStatement(strSentenciaSQL);
             pstm.execute();
             return 1;
         } catch (Exception e) {
