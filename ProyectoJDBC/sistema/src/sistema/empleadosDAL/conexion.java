@@ -2,7 +2,7 @@ package sistema.empleadosDAL;
 import java.sql.*;
 
 public class conexion {
-    String strConexionDB = "";
+    String strConexionDB = "jdbc:sqlite:C:/Users/andre/OneDrive/Desktop/ProyectoJDBC/sistema.db";
     // Variable que me permite conectar la BASE DE DATOS
     
     Connection conn = null;
