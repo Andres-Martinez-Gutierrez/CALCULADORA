@@ -19,4 +19,15 @@ public class conexion {
         }
 
     }
+    public int ejecutarSentenciaSQL(String strSentenciaSQL){
+        try {
+            PreparedStatement pstm = conn.prepareStatement(strConexionDB);
+            pstm.execute();
+            return 1;
+        } catch (Exception e) {
+            System.out.println(e);
+            return 0;
+        }
+        
+    }
 }
