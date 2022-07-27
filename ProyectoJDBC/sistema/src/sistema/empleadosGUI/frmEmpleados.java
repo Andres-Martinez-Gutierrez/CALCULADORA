@@ -5,11 +5,8 @@
 package sistema.empleadosGUI;
 
 import sistema.empleadosDAL.conexion;
+import java.sql.*;
 
-/**
- *
- * @author andre
- */
 public class frmEmpleados extends javax.swing.JFrame {
 
     /**
@@ -148,7 +145,19 @@ public class frmEmpleados extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         conexion objtConexion = new conexion();
-        objtConexion.ejecutarSentenciaSQL("INSERT INTO empleado (Id, Nombre,Correo)");
+        objtConexion.ejecutarSentenciaSQL("INSERT INTO empleado (Id, Nombre, Correo) "
+                + "VALUES (NULL, 'MARIMAR2', 'marimar@gmail.com')");
+         try {
+             ResultSet resultado = objtConexion.consultarRegistros("SELECT * FROM empleado");
+             while (resultado.next()) {  
+                 System.out.println(resultado.getString("Id"));
+                 System.out.println(resultado.getString("NOmbre"));
+                 System.out.println(resultado.getString("Correo")); 
+             }
+  
+        } catch (Exception e) {
+            System.out.println(e);
+        } 
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
