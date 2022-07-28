@@ -6,6 +6,7 @@ package sistema.empleadosGUI;
 
 import sistema.empleadosDAL.conexion;
 import java.sql.*;
+import sistema.empleadosBL.empleadosBL;
 
 public class frmEmpleados extends javax.swing.JFrame {
 
@@ -164,11 +165,17 @@ public class frmEmpleados extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIdActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    public empleadosBL recuperarDatosGUI(){
+        empleadosBL objetEmpleados = new empleadosBL();
+        int Id = (txtId.getText().isEmpty()?0:Integer.parseInt(txtId.getText()));
+        objetEmpleados.setId(Id);
+        objetEmpleados.setNombre(txtNombre.getText());
+        objetEmpleados.setCorreo(txtCorreo.getText());
+        
+        return objetEmpleados;
+    }
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
+        
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
