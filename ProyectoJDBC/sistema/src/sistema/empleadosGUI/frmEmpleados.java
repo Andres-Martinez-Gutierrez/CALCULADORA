@@ -6,15 +6,18 @@ package sistema.empleadosGUI;
 
 import sistema.empleadosDAL.conexion;
 import java.sql.*;
+import javax.swing.table.DefaultTableModel;
 import sistema.empleadosBL.empleadosBL;
 
 public class frmEmpleados extends javax.swing.JFrame {
 
-    /**
-     * Creates new form frmEmpleados
-     */
+    
+    DefaultTableModel model;
     public frmEmpleados() {
         initComponents();
+        String [] titulos = {"Id","Nombre", "Correo"};
+        model = new DefaultTableModel(null,titulos);
+        tblEmpleados.setModel(model);
     }
 
     /**
@@ -27,7 +30,7 @@ public class frmEmpleados extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblEmpleados = new javax.swing.JTable();
         btnAgregar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -41,7 +44,7 @@ public class frmEmpleados extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblEmpleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -52,7 +55,7 @@ public class frmEmpleados extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblEmpleados);
 
         btnAgregar.setBackground(new java.awt.Color(255, 0, 102));
         btnAgregar.setText("Agregar");
@@ -89,16 +92,14 @@ public class frmEmpleados extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
                         .addComponent(btnAgregar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(32, 32, 32)
                         .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(35, 35, 35)
                         .addComponent(jButton3)
-                        .addGap(18, 18, 18)
+                        .addGap(34, 34, 34)
                         .addComponent(jButton4))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -112,8 +113,9 @@ public class frmEmpleados extends javax.swing.JFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(20, Short.MAX_VALUE))
+                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(229, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,8 +148,11 @@ public class frmEmpleados extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         conexion objtConexion = new conexion();
-        objtConexion.ejecutarSentenciaSQL("INSERT INTO empleado (Id, Nombre, Correo) "
-                + "VALUES (NULL, 'MARIMAR2', 'marimar@gmail.com')");
+        empleadosBL objEmpleados = recuperarDatosGUI();
+        String strSentenciaInsertar = String.format("INSERT INTO empleado (Id, Nombre, Correo) "
+                + "VALUES (%d, '%s','%s')", objEmpleados.getId(), objEmpleados.getNombre(), objEmpleados.getCorreo());
+        objtConexion.ejecutarSentenciaSQL(strSentenciaInsertar);
+
          try {
              ResultSet resultado = objtConexion.consultarRegistros("SELECT * FROM empleado");
              while (resultado.next()) {  
@@ -174,6 +179,7 @@ public class frmEmpleados extends javax.swing.JFrame {
         
         return objetEmpleados;
     }
+    
     public static void main(String args[]) {
         
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -214,8 +220,8 @@ public class frmEmpleados extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTable tblEmpleados;
     private javax.swing.JLabel txtCorreo;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombre;
