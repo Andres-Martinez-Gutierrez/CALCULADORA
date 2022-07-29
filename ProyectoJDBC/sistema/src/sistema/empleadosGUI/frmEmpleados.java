@@ -6,6 +6,7 @@ package sistema.empleadosGUI;
 
 import sistema.empleadosDAL.conexion;
 import java.sql.*;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import sistema.empleadosBL.empleadosBL;
 
@@ -38,10 +39,10 @@ public class frmEmpleados extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtCorreo = new javax.swing.JLabel();
+        txtCorreoo = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        txtCorreo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,6 +57,11 @@ public class frmEmpleados extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblEmpleados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblEmpleadosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblEmpleados);
 
         btnAgregar.setBackground(new java.awt.Color(255, 0, 102));
@@ -79,11 +85,17 @@ public class frmEmpleados extends javax.swing.JFrame {
 
         jLabel2.setText("Nombre");
 
-        txtCorreo.setText("Correo");
+        txtCorreoo.setText("Correo");
 
         txtId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtIdActionPerformed(evt);
+            }
+        });
+
+        txtCorreo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCorreoActionPerformed(evt);
             }
         });
 
@@ -104,9 +116,9 @@ public class frmEmpleados extends javax.swing.JFrame {
                         .addComponent(jButton4))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCorreoo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jTextField3))
+                            .addComponent(txtCorreo))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -131,8 +143,8 @@ public class frmEmpleados extends javax.swing.JFrame {
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtCorreo)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCorreoo)
+                    .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregar)
@@ -161,6 +173,22 @@ public class frmEmpleados extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIdActionPerformed
 
+    private void tblEmpleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmpleadosMouseClicked
+        if(evt.getClickCount() == 1){
+            
+            JTable receptor = (JTable) evt.getSource();
+           
+            txtId.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 0).toString());
+            txtNombre.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 1).toString());
+            txtCorreo.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 2).toString());
+
+        }
+    }//GEN-LAST:event_tblEmpleadosMouseClicked
+
+    private void txtCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCorreoActionPerformed
+
     public empleadosBL recuperarDatosGUI() {
         empleadosBL objetEmpleados = new empleadosBL();
         int Id = (txtId.getText().isEmpty() ? 0 : Integer.parseInt(txtId.getText()));
@@ -177,7 +205,7 @@ public class frmEmpleados extends javax.swing.JFrame {
             ResultSet resultado = objtConexion.consultarRegistros("SELECT * FROM empleado");
             while (resultado.next()) {
                 System.out.println(resultado.getString("Id"));
-                System.out.println(resultado.getString("NOmbre"));
+                System.out.println(resultado.getString("Nombre"));
                 System.out.println(resultado.getString("Correo"));
                 
                 Object [] usuario = {resultado.getString("Id"),resultado.getString("Nombre"),resultado.getString("Correo")};
@@ -229,9 +257,9 @@ public class frmEmpleados extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTable tblEmpleados;
-    private javax.swing.JLabel txtCorreo;
+    private javax.swing.JTextField txtCorreo;
+    private javax.swing.JLabel txtCorreoo;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
