@@ -11,13 +11,14 @@ import sistema.empleadosBL.empleadosBL;
 
 public class frmEmpleados extends javax.swing.JFrame {
 
-    
     DefaultTableModel model;
+
     public frmEmpleados() {
         initComponents();
-        String [] titulos = {"Id","Nombre", "Correo"};
-        model = new DefaultTableModel(null,titulos);
+        String[] titulos = {"Id", "Nombre", "Correo"};
+        model = new DefaultTableModel(null, titulos);
         tblEmpleados.setModel(model);
+        mostrarDatos();
     }
 
     /**
@@ -153,35 +154,43 @@ public class frmEmpleados extends javax.swing.JFrame {
                 + "VALUES (%d, '%s','%s')", objEmpleados.getId(), objEmpleados.getNombre(), objEmpleados.getCorreo());
         objtConexion.ejecutarSentenciaSQL(strSentenciaInsertar);
 
-         try {
-             ResultSet resultado = objtConexion.consultarRegistros("SELECT * FROM empleado");
-             while (resultado.next()) {  
-                 System.out.println(resultado.getString("Id"));
-                 System.out.println(resultado.getString("NOmbre"));
-                 System.out.println(resultado.getString("Correo")); 
-             }
-  
-        } catch (Exception e) {
-            System.out.println(e);
-        } 
+
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIdActionPerformed
 
-    public empleadosBL recuperarDatosGUI(){
+    public empleadosBL recuperarDatosGUI() {
         empleadosBL objetEmpleados = new empleadosBL();
-        int Id = (txtId.getText().isEmpty()?0:Integer.parseInt(txtId.getText()));
+        int Id = (txtId.getText().isEmpty() ? 0 : Integer.parseInt(txtId.getText()));
         objetEmpleados.setId(Id);
         objetEmpleados.setNombre(txtNombre.getText());
         objetEmpleados.setCorreo(txtCorreo.getText());
-        
+
         return objetEmpleados;
     }
-    
+
+    public void mostrarDatos() {
+        conexion objtConexion = new conexion();
+        try {
+            ResultSet resultado = objtConexion.consultarRegistros("SELECT * FROM empleado");
+            while (resultado.next()) {
+                System.out.println(resultado.getString("Id"));
+                System.out.println(resultado.getString("NOmbre"));
+                System.out.println(resultado.getString("Correo"));
+                
+                Object [] usuario = {resultado.getString("Id"),resultado.getString("Nombre"),resultado.getString("Correo")};
+                model.addRow(usuario);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
     public static void main(String args[]) {
-        
+
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
