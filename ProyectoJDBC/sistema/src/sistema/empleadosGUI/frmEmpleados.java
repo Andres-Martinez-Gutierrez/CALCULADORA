@@ -11,9 +11,9 @@ import javax.swing.table.DefaultTableModel;
 import sistema.empleadosBL.empleadosBL;
 
 public class frmEmpleados extends javax.swing.JFrame {
-    
+
     DefaultTableModel model;
-    
+
     public frmEmpleados() {
         initComponents();
         String[] titulos = {"Id", "Nombre", "Correo"};
@@ -74,6 +74,11 @@ public class frmEmpleados extends javax.swing.JFrame {
 
         btnEditar.setBackground(new java.awt.Color(102, 0, 255));
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnBorrar.setBackground(new java.awt.Color(102, 204, 0));
         btnBorrar.setText("Borrar");
@@ -85,6 +90,11 @@ public class frmEmpleados extends javax.swing.JFrame {
 
         btnCancelar.setBackground(new java.awt.Color(0, 102, 102));
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Id");
 
@@ -170,7 +180,7 @@ public class frmEmpleados extends javax.swing.JFrame {
                 + "VALUES (%d, '%s','%s')", objEmpleados.getId(), objEmpleados.getNombre(), objEmpleados.getCorreo());
         objtConexion.ejecutarSentenciaSQL(strSentenciaInsertar);
         this.mostrarDatos();
-        
+
 
     }//GEN-LAST:event_btnAgregarActionPerformed
 
@@ -180,13 +190,13 @@ public class frmEmpleados extends javax.swing.JFrame {
 
     private void tblEmpleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmpleadosMouseClicked
         if (evt.getClickCount() == 1) {
-            
+
             JTable receptor = (JTable) evt.getSource();
-            
+
             txtId.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 0).toString());
             txtNombre.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 1).toString());
             txtCorreo.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 2).toString());
-            
+
         }
     }//GEN-LAST:event_tblEmpleadosMouseClicked
 
@@ -200,19 +210,34 @@ public class frmEmpleados extends javax.swing.JFrame {
         String strSentenciaBorrar = String.format("DELETE FROM empleado WHERE Id = %d", objEmpleados.getId());
         objtConexion.ejecutarSentenciaSQL(strSentenciaBorrar);
         this.mostrarDatos();
-        
+
     }//GEN-LAST:event_btnBorrarActionPerformed
-    
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        conexion objtConexion = new conexion();
+        empleadosBL objEmpleados = recuperarDatosGUI();
+        String strSentenciaEditar = String.format("UPDATE empleado SET Nombre = '%s', "
+                + "Correo = '%s' WHERE Id = %d", objEmpleados.getNombre(), objEmpleados.getCorreo(), objEmpleados.getId());
+        objtConexion.ejecutarSentenciaSQL(strSentenciaEditar);
+        this.mostrarDatos();
+
+
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
     public empleadosBL recuperarDatosGUI() {
         empleadosBL objetEmpleados = new empleadosBL();
         int Id = (txtId.getText().isEmpty() ? 0 : Integer.parseInt(txtId.getText()));
         objetEmpleados.setId(Id);
         objetEmpleados.setNombre(txtNombre.getText());
         objetEmpleados.setCorreo(txtCorreo.getText());
-        
+
         return objetEmpleados;
     }
-    
+
     public void mostrarDatos() {
         while (model.getRowCount() > 0) {
             model.removeRow(0);
@@ -224,16 +249,16 @@ public class frmEmpleados extends javax.swing.JFrame {
                 System.out.println(resultado.getString("Id"));
                 System.out.println(resultado.getString("Nombre"));
                 System.out.println(resultado.getString("Correo"));
-                
+
                 Object[] usuario = {resultado.getString("Id"), resultado.getString("Nombre"), resultado.getString("Correo")};
                 model.addRow(usuario);
             }
-            
+
         } catch (Exception e) {
             System.out.println(e);
         }
     }
-    
+
     public static void main(String args[]) {
 
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
