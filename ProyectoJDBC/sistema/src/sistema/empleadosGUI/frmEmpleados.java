@@ -11,9 +11,9 @@ import javax.swing.table.DefaultTableModel;
 import sistema.empleadosBL.empleadosBL;
 
 public class frmEmpleados extends javax.swing.JFrame {
-
+    
     DefaultTableModel model;
-
+    
     public frmEmpleados() {
         initComponents();
         String[] titulos = {"Id", "Nombre", "Correo"};
@@ -34,9 +34,9 @@ public class frmEmpleados extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblEmpleados = new javax.swing.JTable();
         btnAgregar = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
+        btnBorrar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtCorreoo = new javax.swing.JLabel();
@@ -72,14 +72,19 @@ public class frmEmpleados extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(102, 0, 255));
-        jButton2.setText("Editar");
+        btnEditar.setBackground(new java.awt.Color(102, 0, 255));
+        btnEditar.setText("Editar");
 
-        jButton3.setBackground(new java.awt.Color(102, 204, 0));
-        jButton3.setText("Borrar");
+        btnBorrar.setBackground(new java.awt.Color(102, 204, 0));
+        btnBorrar.setText("Borrar");
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
+            }
+        });
 
-        jButton4.setBackground(new java.awt.Color(0, 102, 102));
-        jButton4.setText("Cancelar");
+        btnCancelar.setBackground(new java.awt.Color(0, 102, 102));
+        btnCancelar.setText("Cancelar");
 
         jLabel1.setText("Id");
 
@@ -109,25 +114,24 @@ public class frmEmpleados extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAgregar)
                         .addGap(32, 32, 32)
-                        .addComponent(jButton2)
+                        .addComponent(btnEditar)
                         .addGap(35, 35, 35)
-                        .addComponent(jButton3)
+                        .addComponent(btnBorrar)
                         .addGap(34, 34, 34)
-                        .addComponent(jButton4))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(txtCorreoo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(txtCorreo))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(btnCancelar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtCorreoo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtCorreo))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(txtNombre))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtId)
+                            .addComponent(txtNombre))))
                 .addContainerGap(229, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -148,9 +152,9 @@ public class frmEmpleados extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregar)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(btnEditar)
+                    .addComponent(btnBorrar)
+                    .addComponent(btnCancelar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(97, 97, 97))
@@ -165,7 +169,8 @@ public class frmEmpleados extends javax.swing.JFrame {
         String strSentenciaInsertar = String.format("INSERT INTO empleado (Id, Nombre, Correo) "
                 + "VALUES (%d, '%s','%s')", objEmpleados.getId(), objEmpleados.getNombre(), objEmpleados.getCorreo());
         objtConexion.ejecutarSentenciaSQL(strSentenciaInsertar);
-
+        this.mostrarDatos();
+        
 
     }//GEN-LAST:event_btnAgregarActionPerformed
 
@@ -174,14 +179,14 @@ public class frmEmpleados extends javax.swing.JFrame {
     }//GEN-LAST:event_txtIdActionPerformed
 
     private void tblEmpleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmpleadosMouseClicked
-        if(evt.getClickCount() == 1){
+        if (evt.getClickCount() == 1) {
             
             JTable receptor = (JTable) evt.getSource();
-           
+            
             txtId.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 0).toString());
             txtNombre.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 1).toString());
             txtCorreo.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 2).toString());
-
+            
         }
     }//GEN-LAST:event_tblEmpleadosMouseClicked
 
@@ -189,17 +194,29 @@ public class frmEmpleados extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCorreoActionPerformed
 
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        conexion objtConexion = new conexion();
+        empleadosBL objEmpleados = recuperarDatosGUI();
+        String strSentenciaBorrar = String.format("DELETE FROM empleado WHERE Id = %d", objEmpleados.getId());
+        objtConexion.ejecutarSentenciaSQL(strSentenciaBorrar);
+        this.mostrarDatos();
+        
+    }//GEN-LAST:event_btnBorrarActionPerformed
+    
     public empleadosBL recuperarDatosGUI() {
         empleadosBL objetEmpleados = new empleadosBL();
         int Id = (txtId.getText().isEmpty() ? 0 : Integer.parseInt(txtId.getText()));
         objetEmpleados.setId(Id);
         objetEmpleados.setNombre(txtNombre.getText());
         objetEmpleados.setCorreo(txtCorreo.getText());
-
+        
         return objetEmpleados;
     }
-
+    
     public void mostrarDatos() {
+        while (model.getRowCount() > 0) {
+            model.removeRow(0);
+        }
         conexion objtConexion = new conexion();
         try {
             ResultSet resultado = objtConexion.consultarRegistros("SELECT * FROM empleado");
@@ -208,15 +225,15 @@ public class frmEmpleados extends javax.swing.JFrame {
                 System.out.println(resultado.getString("Nombre"));
                 System.out.println(resultado.getString("Correo"));
                 
-                Object [] usuario = {resultado.getString("Id"),resultado.getString("Nombre"),resultado.getString("Correo")};
+                Object[] usuario = {resultado.getString("Id"), resultado.getString("Nombre"), resultado.getString("Correo")};
                 model.addRow(usuario);
             }
-
+            
         } catch (Exception e) {
             System.out.println(e);
         }
     }
-
+    
     public static void main(String args[]) {
 
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -251,9 +268,9 @@ public class frmEmpleados extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btnBorrar;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
